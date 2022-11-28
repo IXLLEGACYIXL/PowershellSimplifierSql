@@ -18,13 +18,13 @@ $testSqlParameterBuilder = [SqlParameterBuilder]@{}
 
 $testSqlParameterBuilder.Get();
 
-$testSqlParameterBuilder.Add("nvarchar","chartable")
+$testSqlParameterBuilder.Add("chartable")
 $testSqlParameterBuilder.Get()
 $testSqlParameterBuilder = [SqlParameterBuilder]@{}
 
 $testSqlParameterBuilder.Get();
 
-$testSqlParameterBuilder.Add("nvarchar","chartable")
-$testSqlParameterBuilder.Add("datetime","chartable2")
-$testSqlParameterBuilder.Add("xml","chartable3")
+$testSqlParameterBuilder.Add("chartable")
+$testSqlParameterBuilder.Add("chartable2")
+$testSqlParameterBuilder.Add("chartable3")
 $testSqlParameterBuilder.Get()
