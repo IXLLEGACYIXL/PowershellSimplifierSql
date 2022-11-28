@@ -2,6 +2,7 @@ class DatabaseProvider
 {
     $ServerInstance
     $Database
+    
     [object[]] InvokeQuery([string]$Query)
     {
         return Invoke-Sqlcmd -Database $this.ToolDB -ServerInstance $this.ToolServer -Query $Query -OutPutAs DataTables  -ErrorAction Stop
