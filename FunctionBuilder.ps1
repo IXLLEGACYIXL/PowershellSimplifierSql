@@ -14,6 +14,6 @@ class FunctionBuilder
     }
     [string] GetFunctionName()
     {
-        return "function:global:SP_$this.ProcedureName`_$($this.Schema)`_$($this.Database)"
+        return "function:global:SP_$($this.ProcedureName)`_$($this.Schema)`_$($this.Database)"
     }
 }

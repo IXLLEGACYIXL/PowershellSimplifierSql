@@ -2,7 +2,7 @@ class SqlParameterBuilder
 {
     $Result = '';
     $Tokens = @{
-        Parameter = "@{0}=`${0}, "
+        Parameter = "@{0}=`'`${0}`', "
     }
     [string] Get() {
         $temp= $this.Result.Trim(", ")
