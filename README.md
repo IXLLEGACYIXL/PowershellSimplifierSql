@@ -11,7 +11,9 @@ CollectProcedures -ServerInstance "MS110\DEV" -Database "SqlDataTools"
 
 Then your procedure Connections are available.
 Following the naming conventions in your SQL Server, by adding sp_ infront will lead to that function naming.
-If your Procedures dont start with sp_ then you will find your Functions by Following that pattern {PROCEDURE_NAME}_{SCHEMA}
+If your Procedures dont start with sp_ then you will find your Functions by Following that pattern {PROCEDURE_NAME}_{SCHEMA}_{DATABASE}
+
+you can collect from multiple different databases, but collecting from same database names will overwrite the old functions if they end up with the same name, no check available if the function exists
 
 
 
