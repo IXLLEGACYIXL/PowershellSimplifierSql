@@ -1,0 +1,2 @@
+# PowershellSimplifierSql
+License: MIT
