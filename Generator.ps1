@@ -1,5 +1,3 @@
-
-
 function Global:CollectProcedures
 {
     [CmdletBinding()]
@@ -47,7 +45,7 @@ function Global:CollectProcedures
         $ParameterBlockBuilder = [ParameterBuilder] @{}
     
         $ParameterBlockBuilder.AddDbProvider($DBProvider);
-        Write-Host 
+        
         if( "$($item.Parameter)" -ne '' )
         {
             $SplittedParameter = ([string]$item.Parameter).Replace("@",'').Split(';');
@@ -76,8 +74,10 @@ function Global:CollectProcedures
         }
         $FunctionName = $FunctionBuilder.GetFunctionName()
         $CodeBlock = $FunctionBuilder.GetCodeblock();
-        Write-Host ""+$FunctionName "" + $CodeBlock
+        Write-Host "FUNCTIONNAME: $FunctionName"
+        Write-Host "CODEBLOCK: $CodeBlock"
+        Set-Item -Path $FunctionName -Value $CodeBlock
     }
    
-    #   Set-Item -Path $FunctionName -Value $CodeBlock
+   
 }
