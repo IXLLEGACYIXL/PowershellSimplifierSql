@@ -40,8 +40,9 @@ function Global:CollectProcedures
 
     foreach ($item in $DBProvider.InvokeQuery($ProcedureSearchQuery)) 
     {
+        Write-Verbose "### START"
         $SqlParameterBuilder = [SqlParameterBuilder] @{}
-
+        
         $ParameterBlockBuilder = [ParameterBuilder] @{}
     
         $ParameterBlockBuilder.AddDbProvider($DBProvider);
@@ -57,11 +58,14 @@ function Global:CollectProcedures
                 $SqlParameterBuilder.Add($SplittedParameter[$i]);
                 $ParameterBlockBuilder.Add($SplittedTypes[$i],$SplittedParameter[$i]);
             }
+            Write-Verbose "PARAMETER_BLOCK: $($ParameterBlockBuilder.Get())"
+            Write-Verbose "PARAMETER: $($SqlParameterBuilder.Get())"
         }
         $CodeBlockBuilder = [CodeBlockBuilder]@{
             ProcedureName = "$($item.Schema)`.$($item.Name)"
             SqlParameter = $SqlParameterBuilder.Get()
         }
+        Write-Verbose "CODEBLOCK_BUILDER: $($CodeBlockBuilder.Get())"
         $FunctionBuilder = [FunctionBuilder]@{
             
             SqlQuery = $CodeBlockBuilder.Get()
@@ -72,11 +76,14 @@ function Global:CollectProcedures
             Instance = $DBProvider.ServerInstance
             Database = $DBProvider.Database
         }
+        
         $FunctionName = $FunctionBuilder.GetFunctionName()
         $CodeBlock = $FunctionBuilder.GetCodeblock();
-        Write-Host "FUNCTIONNAME: $FunctionName"
-        Write-Host "CODEBLOCK: $CodeBlock"
+        
+        Write-Verbose "FUNCTIONNAME: $FunctionName"
+        Write-Verbose "CODEBLOCK: $CodeBlock"
         Set-Item -Path $FunctionName -Value $CodeBlock
+        Write-Verbose "### END"
     }
    
    

@@ -8,7 +8,6 @@ class ParameterBuilder {
     [string] Get() {
         $temp= $this.Result.Trim(",`n")
         $temp = [string]::Format($this.Tokens.Block, $temp)
-        $this.Result = '';
         return $temp;
     }
     [void]Add([string]$type, [string]$item) {
@@ -45,21 +44,3 @@ class ParameterBuilder {
         return $typer
     }
 }
-
-
-$testParameterBuilder = [ParameterBuilder]@{}
-
-$testParameterBuilder.Get()
-$testParameterBuilder.AddDbProvider(@{
-    ServerInstance = "MS110\DEV"	    
-    Database = "DEV"
-});
-$testParameterBuilder.Get();
-
-
-$testParameterBuilder.AddDbProvider(@{
-    ServerInstance = "MS110\DEV"
-    Database = "DEV"
-});
-$testParameterBuilder.Add("nvarchar","chartable")
-$testParameterBuilder.Get()
