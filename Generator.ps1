@@ -59,7 +59,7 @@ function Global:CollectProcedures
                 $ParameterBlockBuilder.Add($SplittedTypes[$i],$SplittedParameter[$i]);
             }
             Write-Verbose "PARAMETER_BLOCK: $($ParameterBlockBuilder.Get())"
-            Write-Verbose "PARAMETER: $($SqlParameterBuilder.Get())"
+            Write-Verbose "PARAMETER_SQL: $($SqlParameterBuilder.Get())"
         }
         $CodeBlockBuilder = [CodeBlockBuilder]@{
             ProcedureName = "$($item.Schema)`.$($item.Name)"
