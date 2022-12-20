@@ -1,17 +1,17 @@
 
 class ParameterBuilder {
     hidden $Result = '';
-    hidden $Tokens = @{
+    hidden $TOKENS = @{
         Parameter = "`t[Parameter(Mandatory=`$false)]`n`t[{0}] `${1},`n"
         Block     = "[CmdletBinding()]`nparam`n(`n{0}`n)"
     }
     [string] Get() {
         $temp= $this.Result.Trim(",`n")
-        $temp = [string]::Format($this.Tokens.Block, $temp)
+        $temp = [string]::Format($this.TOKENS.Block, $temp)
         return $temp;
     }
     [void]Add([string]$type, [string]$item) {
-        $this.Result += [string]::Format($this.Tokens.Parameter, $this.ConvertSqlTypeToCsharpType($type), $item)
+        $this.Result += [string]::Format($this.TOKENS.Parameter, $this.ConvertSqlTypeToCsharpType($type), $item)
     }
     [void]AddAll([string]$types,[string]$items){
         if($types.Length -ne $items.Length){
