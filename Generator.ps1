@@ -10,10 +10,8 @@ function Global:Import-StoredProcedures
     . .\ParameterBuilder.ps1
     . .\SqlParameterBuilder.ps1
 
-    $DBProvider = [DatabaseProvider]@{
-        ServerInstance = $ServerInstance
-        Database = $Database
-    }
+    [DatabaseProvider]$DBProvider = [SqlServerProvider]::new($ServerInstance,$Database);
+    
     foreach ($item in $DBProvider.GetProcedures()) 
     {
         $SqlParameterBuilder = [SqlParameterBuilder]::new("@{0}=`'`${0}`', ",", ");

@@ -1,12 +1,18 @@
-class DatabaseProvider
+class SqlServerProvider : DatabaseProvider
 {
     [string]$ServerInstance
     [string]$Database
-
+    SqlServerProvider([string]$ServerInstance,$Database){
+        $this.ServerInstance = $ServerInstance
+        $this.Database = $Database
+    }
     [object[]] InvokeQuery([string]$Query)
     {
         Write-Host $this.ServerInstance $this.Database
         return Invoke-Sqlcmd -Database $this.Database -ServerInstance $this.ServerInstance -Query $Query -OutPutAs DataTables  -ErrorAction Stop
+    }
+    [string] GetInvocationString(){
+        return "Invoke-Sqlcmd -Database $($this.Database) -ServerInstance $($this.ServerInstance) -Query {0}"
     }
     [object[]] GetProcedures(){
         return $this.InvokeQuery("
@@ -27,3 +33,17 @@ class DatabaseProvider
         ");
     }
 } 
+class DatabaseProvider
+{
+    [object[]] InvokeQuery([string]$Query)
+    {
+        throw "Method InvokeQuery was not overriden."
+    }
+    [object[]] GetProcedures(){
+        throw "Method GetProcedures was not overriden."
+    }
+    [string] GetInvocationString(){
+        throw "Method GetInvocationString was not overriden."
+    }
+
+}
