@@ -7,7 +7,7 @@ Call
 .\Generator
 
 Then you have the CollectProcedures Function which needs a Server Instance ( also Cluster are possible ) and a Database
-CollectProcedures -ServerInstance "MS110\DEV" -Database "SqlDataTools"
+Import-StoredProcedures -ServerInstance "MS110\DEV" -Database "SqlDataTools"
 
 Then your procedure Connections are available.
 Following the naming conventions in your SQL Server, by adding sp_ infront will lead to that function naming.
