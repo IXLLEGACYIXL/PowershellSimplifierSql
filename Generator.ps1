@@ -61,13 +61,11 @@ function Global:CollectProcedures
             Write-Verbose "PARAMETER_BLOCK: $($ParameterBlockBuilder.Get())"
             Write-Verbose "PARAMETER_SQL: $($SqlParameterBuilder.Get())"
         }
-        $CodeBlockBuilder = [CodeBlockBuilder]@{
-            ProcedureName = "$($item.Schema)`.$($item.Name)"
-            SqlParameter = $SqlParameterBuilder.Get()
-        }
+        $ProcedureName = "$($item.Schema)`.$($item.Name)";
+        $CodeBlockBuilder = [CodeBlockBuilder]::new($SqlParameterBuilder.Get(),$ProcedureName);
+        
         Write-Verbose "CODEBLOCK_BUILDER: $($CodeBlockBuilder.Get())"
-        $FunctionBuilder = [FunctionBuilder]@{
-            
+        $FunctionBuilder = [FunctionBuilder]@{    
             SqlQuery = $CodeBlockBuilder.Get()
             Schema = $item.Schema
             ProcedureName = $item.Name
