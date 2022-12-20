@@ -1,7 +1,7 @@
 class SqlParameterBuilder
 {
-    $Result = '';
-    $Tokens = @{
+    hidden $Result = '';
+    hidden $Tokens = @{
         Parameter = "@{0}=`'`${0}`', "
     }
     [string] Get() {

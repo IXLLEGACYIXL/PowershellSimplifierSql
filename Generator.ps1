@@ -43,7 +43,7 @@ function Global:CollectProcedures
         Write-Verbose "### START"
         $SqlParameterBuilder = [SqlParameterBuilder]::new();
         
-        $ParameterBlockBuilder = [ParameterBuilder] @{}
+        $ParameterBlockBuilder = [ParameterBuilder]::new();
     
         $ParameterBlockBuilder.AddDbProvider($DBProvider);
         
