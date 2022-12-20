@@ -1,4 +1,4 @@
-function Global:CollectProcedures
+function Global:Import-StoredProceduresFromServer
 {
     [CmdletBinding()]
     param([string]$ServerInstance,[string]$Database)
