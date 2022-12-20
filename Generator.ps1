@@ -1,7 +1,7 @@
 function Global:CollectProcedures
 {
     [CmdletBinding()]
-    param($ServerInstance,$Database)
+    param([string]$ServerInstance,[string]$Database)
 
     # Import Classes
     . .\DatabaseProvider.ps1
@@ -14,8 +14,7 @@ function Global:CollectProcedures
         ServerInstance = $ServerInstance
         Database = $Database
     }
-    $ProcedureSearchQuery = $DBProvider.GetProcedures();
-    foreach ($item in $DBProvider.InvokeQuery($ProcedureSearchQuery)) 
+    foreach ($item in $DBProvider.GetProcedures()) 
     {
         $SqlParameterBuilder = [SqlParameterBuilder]::new("@{0}=`'`${0}`', ");
         

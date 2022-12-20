@@ -1,10 +1,11 @@
 class DatabaseProvider
 {
-    $ServerInstance
-    $Database
+    [string]$ServerInstance
+    [string]$Database
 
     [object[]] InvokeQuery([string]$Query)
     {
+        Write-Host $this.ServerInstance $this.Database
         return Invoke-Sqlcmd -Database $this.Database -ServerInstance $this.ServerInstance -Query $Query -OutPutAs DataTables  -ErrorAction Stop
     }
     [object[]] GetProcedures(){
