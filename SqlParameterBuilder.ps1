@@ -1,8 +1,10 @@
 class SqlParameterBuilder
 {
-    hidden $Result = '';
-    hidden $Tokens = @{
-        Parameter = "@{0}=`'`${0}`', "
+    hidden [string]$Result = '';
+    hidden [string]$Parameter;
+
+    SqlParameterBuilder([string]$ParmeterConfig){
+        $this.Parameter = $ParmeterConfig;
     }
     [string] Get() {
         $temp= $this.Result.Trim(", ")
@@ -13,6 +15,6 @@ class SqlParameterBuilder
         $items | Foreach-object { $this.Add($_); }
     }
     [void]Add([string]$item) {
-        $this.Result += [string]::Format($this.Tokens.Parameter, $item)
+        $this.Result += [string]::Format($this.Parameter, $item)
     }
 }

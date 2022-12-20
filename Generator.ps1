@@ -17,7 +17,7 @@ function Global:CollectProcedures
     $ProcedureSearchQuery = $DBProvider.GetProcedures();
     foreach ($item in $DBProvider.InvokeQuery($ProcedureSearchQuery)) 
     {
-        $SqlParameterBuilder = [SqlParameterBuilder]::new();
+        $SqlParameterBuilder = [SqlParameterBuilder]::new("@{0}=`'`${0}`', ");
         
         $ParameterBlockBuilder = [ParameterBuilder]::new();
     
