@@ -1,20 +1,40 @@
-class SqlServerProvider : DatabaseProvider
-{
+<#
+    This base class defines the minimum Requirements for a DatabaseProvider.
+    The Class should be able to:
+        - Invoke Querys.
+        - Find Procedures from the Server with its information.
+        - Deliver an Invocation String for other classes to use.
+#>
+class DatabaseProvider {
+    # Invokes a SQL Query.
+    [object[]] InvokeQuery([string]$Query) {
+        throw "Method InvokeQuery was not overriden."
+    }
+    # Searches in the SQL Server for Procedures and returns them.
+    [object[]] GetProcedures() {
+        throw "Method GetProcedures was not overriden."
+    }
+    # Returns the Invocation string for other classes to be able to add it to a function.
+    [string] GetInvocationString() {
+        throw "Method GetInvocationString was not overriden."
+    }
+
+}
+class SqlServerProvider : DatabaseProvider {
     [string]$ServerInstance
     [string]$Database
-    SqlServerProvider([string]$ServerInstance,$Database){
+    SqlServerProvider([string]$ServerInstance, $Database) {
         $this.ServerInstance = $ServerInstance
         $this.Database = $Database
     }
-    [object[]] InvokeQuery([string]$Query)
-    {
+    [object[]] InvokeQuery([string]$Query) {
         Write-Host $this.ServerInstance $this.Database
         return Invoke-Sqlcmd -Database $this.Database -ServerInstance $this.ServerInstance -Query $Query -OutPutAs DataTables  -ErrorAction Stop
     }
-    [string] GetInvocationString(){
+    [string] GetInvocationString() {
         return "Invoke-Sqlcmd -Database $($this.Database) -ServerInstance $($this.ServerInstance) -Query {0}"
     }
-    [object[]] GetProcedures(){
+    [object[]] GetProcedures() {
         return $this.InvokeQuery("
         SELECT 
             [Parameter] = STRING_AGG([Params].[name],';'),
@@ -33,17 +53,3 @@ class SqlServerProvider : DatabaseProvider
         ");
     }
 } 
-class DatabaseProvider
-{
-    [object[]] InvokeQuery([string]$Query)
-    {
-        throw "Method InvokeQuery was not overriden."
-    }
-    [object[]] GetProcedures(){
-        throw "Method GetProcedures was not overriden."
-    }
-    [string] GetInvocationString(){
-        throw "Method GetInvocationString was not overriden."
-    }
-
-}
