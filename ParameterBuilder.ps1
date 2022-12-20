@@ -4,9 +4,10 @@ class ParameterBuilder {
     hidden $TOKENS = @{
         Parameter = "`t[Parameter(Mandatory=`$false)]`n`t[{0}] `${1},`n"
         Block     = "[CmdletBinding()]`nparam`n(`n{0}`n)"
+        LineBreak = ",`n"
     }
     [string] Get() {
-        $temp= $this.Result.Trim(",`n")
+        $temp= $this.Result.Trim($this.TOKENS.LineBreak)
         $temp = [string]::Format($this.TOKENS.Block, $temp)
         return $temp;
     }
@@ -23,8 +24,8 @@ class ParameterBuilder {
         }
     }
     [void]AddDbProvider($dbProvider) {
-        $this.Result += "`t[string] `$Instance = `"" + $dbProvider.ServerInstance + "`",`n"
-        $this.Result += "`t[string] `$Database = `"" + $dbProvider.Database + "`",`n"
+        $this.Result += "`t[string] `$Instance = `"" + $dbProvider.ServerInstance + "`"" +$this.TOKENS.LineBreak
+        $this.Result += "`t[string] `$Database = `"" + $dbProvider.Database + "`"" +$this.TOKENS.LineBreak
     }
     [string] ConvertSqlTypeToCsharpType([string] $type) {
         $typer = switch ($type) {
