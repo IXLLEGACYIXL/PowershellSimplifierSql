@@ -2,44 +2,19 @@ function Global:CollectProcedures
 {
     [CmdletBinding()]
     param($ServerInstance,$Database)
-    $DBProvider = [DatabaseProvider]@{
-        ServerInstance = $ServerInstance
-        Database = $Database
-    }
-    class DatabaseProvider
-    {
-        $ServerInstance
-        $Database
-    
-        [object[]] InvokeQuery([string]$Query)
-        {
-            return Invoke-Sqlcmd -Database $this.Database -ServerInstance $this.ServerInstance -Query $Query -OutPutAs DataTables  -ErrorAction Stop
-        }
-        [object[]] GetProcedures(){
-            return $this.InvokeQuery("
-            SELECT 
-                [Parameter] = STRING_AGG([Params].[name],';'),
-                [Schema]    = SCHEMA_NAME([Proced].[schema_id]),
-                [Name]      = [Proced].[Name],
-                [Type]      = STRING_AGG(type_name([Params].[user_type_id]),';')
-            FROM
-                [sys].[parameters]    AS [Params]
-                RIGHT JOIN
-                    [sys].[Procedures] AS [Proced] 
-                ON
-                    [Params].[object_id] = [Proced].[object_id]
-            GROUP BY
-                [Proced].[name],
-                [Proced].[schema_id]
-            ");
-        }
-    } 
-    $ProcedureSearchQuery = $DBProvider.GetProcedures();
+
+    # Import Classes
+    . .\DatabaseProvider.ps1
     . .\CodeBlockBuilder.ps1
     . .\FunctionBuilder.ps1
     . .\ParameterBuilder.ps1
     . .\SqlParameterBuilder.ps1
-
+    
+    $DBProvider = [DatabaseProvider]@{
+        ServerInstance = $ServerInstance
+        Database = $Database
+    }
+    $ProcedureSearchQuery = $DBProvider.GetProcedures();
     foreach ($item in $DBProvider.InvokeQuery($ProcedureSearchQuery)) 
     {
         $SqlParameterBuilder = [SqlParameterBuilder]::new();
