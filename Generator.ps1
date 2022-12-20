@@ -40,7 +40,6 @@ function Global:CollectProcedures
 
     foreach ($item in $DBProvider.InvokeQuery($ProcedureSearchQuery)) 
     {
-        Write-Verbose "### START"
         $SqlParameterBuilder = [SqlParameterBuilder]::new();
         
         $ParameterBlockBuilder = [ParameterBuilder]::new();
@@ -58,13 +57,10 @@ function Global:CollectProcedures
                 $SqlParameterBuilder.Add($SplittedParameter[$i]);
                 $ParameterBlockBuilder.Add($SplittedTypes[$i],$SplittedParameter[$i]);
             }
-            Write-Verbose "PARAMETER_BLOCK: $($ParameterBlockBuilder.Get())"
-            Write-Verbose "PARAMETER_SQL: $($SqlParameterBuilder.Get())"
         }
         $ProcedureName = "$($item.Schema)`.$($item.Name)";
         $CodeBlockBuilder = [CodeBlockBuilder]::new($SqlParameterBuilder.Get(),$ProcedureName);
         
-        Write-Verbose "CODEBLOCK_BUILDER: $($CodeBlockBuilder.Get())"
         $FunctionBuilder = [FunctionBuilder]@{    
             SqlQuery = $CodeBlockBuilder.Get()
             Schema = $item.Schema
@@ -75,13 +71,7 @@ function Global:CollectProcedures
             Database = $DBProvider.Database
         }
         
-        $FunctionName = $FunctionBuilder.GetFunctionName()
-        $CodeBlock = $FunctionBuilder.GetCodeblock();
-        
-        Write-Verbose "FUNCTIONNAME: $FunctionName"
-        Write-Verbose "CODEBLOCK: $CodeBlock"
-        Set-Item -Path $FunctionName -Value $CodeBlock
-        Write-Verbose "### END"
+        $FunctionBuilder.CreateFunction();
     }
    
    
