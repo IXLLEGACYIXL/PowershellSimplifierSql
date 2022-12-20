@@ -6,8 +6,8 @@ class CodeBlockBuilder
         Block = "Invoke-SqlCmd -ServerInstance `$Instance -Database `$Database -Query `"EXEC {0} {1}`""
     }
     CodeBlockBuilder($SqlParams,$Procedure){
-        this.SqlParameter = $SqlParams;
-        this.$ProcedureName = $Procedure;
+        $this.SqlParameter = $SqlParams;
+        $this.ProcedureName = $Procedure;
     }
     [string] Get()
     {
