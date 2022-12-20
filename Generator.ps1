@@ -15,28 +15,30 @@ function Global:CollectProcedures
         {
             return Invoke-Sqlcmd -Database $this.Database -ServerInstance $this.ServerInstance -Query $Query -OutPutAs DataTables  -ErrorAction Stop
         }
+        [object[]] GetProcedures(){
+            return $this.InvokeQuery("
+            SELECT 
+                [Parameter] = STRING_AGG([Params].[name],';'),
+                [Schema]    = SCHEMA_NAME([Proced].[schema_id]),
+                [Name]      = [Proced].[Name],
+                [Type]      = STRING_AGG(type_name([Params].[user_type_id]),';')
+            FROM
+                [sys].[parameters]    AS [Params]
+                RIGHT JOIN
+                    [sys].[Procedures] AS [Proced] 
+                ON
+                    [Params].[object_id] = [Proced].[object_id]
+            GROUP BY
+                [Proced].[name],
+                [Proced].[schema_id]
+            ");
+        }
     } 
-    $ProcedureSearchQuery = "
-    SELECT 
-        [Parameter] = STRING_AGG([Params].[name],';'),
-        [Schema]    = SCHEMA_NAME([Proced].[schema_id]),
-        [Name]      = [Proced].[Name],
-        [Type]      = STRING_AGG(type_name([Params].[user_type_id]),';')
-    FROM
-        [sys].[parameters]    AS [Params]
-        RIGHT JOIN
-            [sys].[Procedures] AS [Proced] 
-        ON
-            [Params].[object_id] = [Proced].[object_id]
-    GROUP BY
-        [Proced].[name],
-        [Proced].[schema_id]
-    "   
+    $ProcedureSearchQuery = $DBProvider.GetProcedures();
     . .\CodeBlockBuilder.ps1
     . .\FunctionBuilder.ps1
     . .\ParameterBuilder.ps1
     . .\SqlParameterBuilder.ps1
-
 
     foreach ($item in $DBProvider.InvokeQuery($ProcedureSearchQuery)) 
     {
@@ -73,6 +75,4 @@ function Global:CollectProcedures
         
         $FunctionBuilder.CreateFunction();
     }
-   
-   
 }
