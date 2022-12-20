@@ -41,7 +41,7 @@ function Global:CollectProcedures
     foreach ($item in $DBProvider.InvokeQuery($ProcedureSearchQuery)) 
     {
         Write-Verbose "### START"
-        $SqlParameterBuilder = [SqlParameterBuilder] @{}
+        $SqlParameterBuilder = [SqlParameterBuilder]::new();
         
         $ParameterBlockBuilder = [ParameterBuilder] @{}
     

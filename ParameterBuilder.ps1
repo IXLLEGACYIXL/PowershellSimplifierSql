@@ -1,7 +1,7 @@
 
 class ParameterBuilder {
-    $Result = '';
-    $Tokens = @{
+    hidden $Result = '';
+    hidden $Tokens = @{
         Parameter = "`t[Parameter(Mandatory=`$false)]`n`t[{0}] `${1},`n"
         Block     = "[CmdletBinding()]`nparam`n(`n{0}`n)"
     }
