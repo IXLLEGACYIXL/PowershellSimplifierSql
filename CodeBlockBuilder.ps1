@@ -1,17 +1,14 @@
 class CodeBlockBuilder
 {
-    hidden $SqlParameter;
-    hidden $ProcedureName;
-    hidden $TOKENS =@{
-        Block = "Invoke-SqlCmd -ServerInstance `$Instance -Database `$Database -Query `"EXEC {0} {1}`""
-    }
-    CodeBlockBuilder($SqlParams,$Procedure){
-        $this.SqlParameter = $SqlParams;
-        $this.ProcedureName = $Procedure;
+    hidden $Query;
+    hidden $Invocation;
+    CodeBlockBuilder([string]$Invocation,[string]$Query){
+        $this.Invocation = $Invocation;
+        $this.Query = $Query;
     }
     [string] Get()
     {
-        return [string]::Format($this.TOKENS.Block,$this.ProcedureName, $this.SqlParameter)
+        return [string]::Format($this.Invocation,$this.Query)
     }
 }
 

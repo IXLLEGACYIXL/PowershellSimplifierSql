@@ -32,7 +32,7 @@ class SqlServerProvider : DatabaseProvider {
         return Invoke-Sqlcmd -Database $this.Database -ServerInstance $this.ServerInstance -Query $Query -OutPutAs DataTables  -ErrorAction Stop
     }
     [string] GetInvocationString() {
-        return "Invoke-Sqlcmd -Database $($this.Database) -ServerInstance $($this.ServerInstance) -Query {0}"
+        return "Invoke-Sqlcmd -Database $($this.Database) -ServerInstance $($this.ServerInstance) -Query {0} {1}"
     }
     [object[]] GetProcedures() {
         return $this.InvokeQuery("

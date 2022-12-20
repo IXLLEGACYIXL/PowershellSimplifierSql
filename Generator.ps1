@@ -11,7 +11,7 @@ function Global:Import-StoredProcedures
     . .\SqlParameterBuilder.ps1
 
     [DatabaseProvider]$DBProvider = [SqlServerProvider]::new($ServerInstance,$Database);
-    
+
     foreach ($item in $DBProvider.GetProcedures()) 
     {
         $SqlParameterBuilder = [SqlParameterBuilder]::new("@{0}=`'`${0}`', ",", ");
@@ -31,7 +31,7 @@ function Global:Import-StoredProcedures
             
         }
         $ProcedureName = "$($item.Schema)`.$($item.Name)";
-        $CodeBlockBuilder = [CodeBlockBuilder]::new($SqlParameterBuilder.Get(),$ProcedureName);
+        $CodeBlockBuilder = [CodeBlockBuilder]::new($DBProvider.GetInvocationString(),$SqlParameterBuilder.Get() +" " +$ProcedureName);
         
         $FunctionBuilder = [FunctionBuilder]@{    
             SqlQuery = $CodeBlockBuilder.Get()
