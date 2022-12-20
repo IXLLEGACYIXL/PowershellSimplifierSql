@@ -1,4 +1,3 @@
-
 class ParameterBuilder {
     hidden $Result = '';
     hidden $TOKENS = @{

@@ -16,7 +16,7 @@ function Global:CollectProcedures
     }
     foreach ($item in $DBProvider.GetProcedures()) 
     {
-        $SqlParameterBuilder = [SqlParameterBuilder]::new("@{0}=`'`${0}`', ");
+        $SqlParameterBuilder = [SqlParameterBuilder]::new("@{0}=`'`${0}`', ",", ");
         
         $ParameterBlockBuilder = [ParameterBuilder]::new();
     

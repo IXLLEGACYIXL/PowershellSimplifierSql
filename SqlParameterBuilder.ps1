@@ -2,12 +2,13 @@ class SqlParameterBuilder
 {
     hidden [string]$Result = '';
     hidden [string]$Parameter;
-
-    SqlParameterBuilder([string]$ParmeterConfig){
+    hidden [string]$Delimiter;
+    SqlParameterBuilder([string]$ParmeterConfig,[string]$ParameterDelimiter){
         $this.Parameter = $ParmeterConfig;
+        $this.Delimiter = $ParameterDelimiter;
     }
     [string] Get() {
-        $temp= $this.Result.Trim(", ")
+        $temp = $this.Result.Trim($this.Delimiter)
         $temp = [string]::Format($this.Tokens.Block, $temp)
         return $temp;
     }
