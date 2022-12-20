@@ -9,7 +9,7 @@ function Global:CollectProcedures
     . .\FunctionBuilder.ps1
     . .\ParameterBuilder.ps1
     . .\SqlParameterBuilder.ps1
-    
+
     $DBProvider = [DatabaseProvider]@{
         ServerInstance = $ServerInstance
         Database = $Database
@@ -28,10 +28,9 @@ function Global:CollectProcedures
             $SplittedParameter = ([string]$item.Parameter).Replace("@",'').Split(';');
             $SplittedTypes = ([string]$item.Type).Split(';');
             
-            
+            $SqlParameterBuilder.AddAll([string]$SplittedParameter)
             for($i = 0; $i -lt $SplittedParameter.Length;$i++)
             {
-                $SqlParameterBuilder.Add($SplittedParameter[$i]);
                 $ParameterBlockBuilder.Add($SplittedTypes[$i],$SplittedParameter[$i]);
             }
         }
