@@ -13,6 +13,15 @@ class ParameterBuilder {
     [void]Add([string]$type, [string]$item) {
         $this.Result += [string]::Format($this.Tokens.Parameter, $this.ConvertSqlTypeToCsharpType($type), $item)
     }
+    [void]AddAll([string]$types,[string]$items){
+        if($types.Length -ne $items.Length){
+            throw "Length was not equal:$types , $items"
+        }
+        for($i = 0; $i -lt $types.Length;$i++)
+        {
+            $this.Add($types[$i],$items[$i]);
+        }
+    }
     [void]AddDbProvider($dbProvider) {
         $this.Result += "`t[string] `$Instance = `"" + $dbProvider.ServerInstance + "`",`n"
         $this.Result += "`t[string] `$Database = `"" + $dbProvider.Database + "`",`n"

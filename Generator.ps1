@@ -29,10 +29,9 @@ function Global:CollectProcedures
             $SplittedTypes = ([string]$item.Type).Split(';');
             
             $SqlParameterBuilder.AddAll([string]$SplittedParameter)
-            for($i = 0; $i -lt $SplittedParameter.Length;$i++)
-            {
-                $ParameterBlockBuilder.Add($SplittedTypes[$i],$SplittedParameter[$i]);
-            }
+            
+            $ParameterBlockBuilder.AddAll($SplittedTypes,$SplittedParameter);
+            
         }
         $ProcedureName = "$($item.Schema)`.$($item.Name)";
         $CodeBlockBuilder = [CodeBlockBuilder]::new($SqlParameterBuilder.Get(),$ProcedureName);
