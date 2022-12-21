@@ -2,13 +2,15 @@ class SynopsisBuilder
 {
     hidden [string]$Result = '';
     [string] Get(){
-        return "<#`n" +$this.Result + "#>`n";
+        $temp = $this.Result;
+        $this.Result = '';
+        return "<#`n$temp#>`n";
     }
     [void] AddSynopsis([string]$value){
-        $this.Result += ".SYNOPSIS`n`t$value`n";
+        $this.Result += ".SYNOPSIS`n$value`n";
     }
     [void] AddDescription([string]$value){
-        $this.Result += ".DESCRIPTION`n`t$value`n";
+        $this.Result += ".DESCRIPTION`n$value`n";
     }
     [void] AddParameter([string]$name,[string]$value){
         $this.Result += ".PARAMETER $name`n`t$value`n";
@@ -23,3 +25,5 @@ class SynopsisBuilder
         }
     }
 }
+
+

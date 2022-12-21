@@ -21,7 +21,13 @@ class DatabaseProvider {
     [string] GetProcedureCode($Name) {
         throw "Method GetProcedureCode was not overriden."
     }
-
+    [object[]] ExtractDescription($ProcedureCode){
+        throw "Method ExtractDescription was not overriden."
+    }
+    [string] ExtractSynopsis([object[]] $ProcedureCode )
+    {
+        throw "Method ExtractSynopsis was not overriden."
+    }
 }
 class SqlServerProvider : DatabaseProvider {
     [string]$ServerInstance
@@ -55,7 +61,34 @@ class SqlServerProvider : DatabaseProvider {
             [Proced].[schema_id]
         ");
     }
-    [string] GetProcedureCode($Name) {
+    [object[]] GetProcedureCode($Name) {
         return $this.InvokeQuery("EXEC sp_helptext '$Name'");
+    }
+    [string] ExtractDescription([object[]] $ProcedureCode )
+    {
+        $DELIMITER = "`n"
+        $START = "`t"
+        $result = '';
+        foreach($line in $ProcedureCode){
+            [string]$line = $line;
+            if($line.StartsWith("--")){
+                $result += $START + $line.Trim().TrimStart("--").TrimStart() + $DELIMITER
+            }else{
+                break;
+            }
+        }
+        return $result.TrimEnd($DELIMITER);
+    }
+    [string] ExtractSynopsis([object[]] $ProcedureCode )
+    {
+        $DELIMITER = "`n"
+        $START = "`t"
+        foreach($line in $ProcedureCode){
+            [string]$line = $line;
+            if($line.StartsWith("-- Description")){
+                return $START + $line.Trim().TrimStart("-- Description:").TrimStart() + $DELIMITER
+            }
+        }
+        return '';
     }
 } 

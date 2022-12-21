@@ -11,7 +11,7 @@ class SqlParameterBuilder
         $temp = $this.Result.Trim($this.Delimiter)
         return $temp;
     }
-    [void]AddAll([string]$items){
+    [void]AddAll([object[]]$items){
         $items | Foreach-object { $this.Add($_); }
     }
     [void]Add([string]$item) {
