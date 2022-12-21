@@ -20,4 +20,10 @@ class FunctionBuilder
     {
         return "function:global:$($this.ProcedureName)`_$($this.Schema)`_$($this.Database)"
     }
+    [string] GetFunctionHeader(){
+        return "function $($this.ProcedureName)`_$($this.Schema)`_$($this.Database) {"
+    }
+    [string] GetEntireFunction(){
+        return $this.GetFunctionHeader() + $this.GetCodeblock() + "`n}"
+    }
 }

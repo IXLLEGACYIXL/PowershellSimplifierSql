@@ -9,7 +9,6 @@ class SqlParameterBuilder
     }
     [string] Get() {
         $temp = $this.Result.Trim($this.Delimiter)
-        $temp = [string]::Format($this.Tokens.Block, $temp)
         return $temp;
     }
     [void]AddAll([string]$items){
