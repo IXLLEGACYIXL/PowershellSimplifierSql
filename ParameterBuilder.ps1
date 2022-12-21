@@ -13,12 +13,13 @@ class ParameterBuilder {
     [void]Add([string]$type, [string]$item) {
         $this.Result += [string]::Format($this.TOKENS.Parameter, $this.ConvertSqlTypeToCsharpType($type), $item)
     }
-    [void]AddAll([string]$types,[string]$items){
+    [void]AddAll([string[]]$types,[object[]]$items){
         if($types.Length -ne $items.Length){
             throw "Length was not equal:$types , $items"
         }
         for($i = 0; $i -lt $types.Length;$i++)
         {
+            Write-HOst $types[$i] $items[$i]
             $this.Add($types[$i],$items[$i]);
         }
     }
