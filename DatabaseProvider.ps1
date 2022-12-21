@@ -19,7 +19,7 @@ class DatabaseProvider {
         throw "Method GetInvocationString was not overriden."
     }
     [string] GetProcedureCode($Name) {
-        return $this.InvokeQuery("EXEC sp_helptext '$Name'");
+        throw "Method GetProcedureCode was not overriden."
     }
 
 }
@@ -54,5 +54,8 @@ class SqlServerProvider : DatabaseProvider {
             [Proced].[name],
             [Proced].[schema_id]
         ");
+    }
+    [string] GetProcedureCode($Name) {
+        return $this.InvokeQuery("EXEC sp_helptext '$Name'");
     }
 } 
