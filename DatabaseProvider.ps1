@@ -18,6 +18,9 @@ class DatabaseProvider {
     [string] GetInvocationString() {
         throw "Method GetInvocationString was not overriden."
     }
+    [string] GetProcedureCode($Name) {
+        return $this.InvokeQuery("EXEC sp_helptext '$Name'");
+    }
 
 }
 class SqlServerProvider : DatabaseProvider {
